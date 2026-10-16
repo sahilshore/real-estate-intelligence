@@ -1,0 +1,7 @@
+# Data Manipulation
+pandas>=2.0
+numpy>=1.24
+
+# Web Scraping (Data Gathering)
+requests>=2.28
+beautifulsoup4>=4.12
