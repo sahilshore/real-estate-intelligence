@@ -21,7 +21,7 @@ group_df = new_df.groupby('sector').mean(numeric_only=True)[
     ['price', 'price_per_sqft', 'built_up_area', 'latitude', 'longitude']
 ]
 
-st.subheader("Price per Sqft by Sector (Interactive Map)")
+st.header("Price per Sqft by Sector (Interactive Map)")
 # Create the interactive map
 fig = px.scatter_map(
     group_df.reset_index(),
@@ -55,7 +55,7 @@ st.plotly_chart(fig, use_container_width=True)
 df = pd.read_csv('C:\\Users\\SAHIL\\Desktop\\Real-State-Price-Predictor\\DATA\\Featured_Data\\gurgaon_properties_missing_value_imputation.csv')
 df1 = pd.read_csv('C:\\Users\\SAHIL\\Desktop\\Real-State-Price-Predictor\\DATA\\Preprocessed_Data\\gurgaon_properties.csv')
 
-st.subheader("Word Cloud of Features by Sector")
+st.header("Word Cloud of Features by Sector")
 
 wordcloud_df = df1.merge(df, left_index=True, right_index=True)[['sector','features']]
 
@@ -65,12 +65,12 @@ wordcloud_df['features'] = wordcloud_df['features'].apply(
     lambda x: ast.literal_eval(x) if isinstance(x, str) else x
 )
 
-new_df = wordcloud_df.groupby('sector')['features'].sum().reset_index()
+wordcloud_df1 = wordcloud_df.groupby('sector')['features'].sum().reset_index()
 
-sector = st.selectbox("Select Sector", new_df['sector'].unique().tolist(), key="sector_select")
+sector = st.selectbox("Select Sector", wordcloud_df1['sector'].unique().tolist(), key="sector_select")
 
 if sector:
-    text = ' '.join(new_df[new_df['sector'] == sector]['features'].values[0])
+    text = ' '.join(wordcloud_df1[wordcloud_df1['sector'] == sector]['features'].values[0])
     st.subheader(f"Word Cloud for {sector}")
     
 
@@ -84,3 +84,16 @@ if sector:
     plt.axis("off") 
     plt.tight_layout(pad = 0) 
     st.pyplot(plt.gcf())
+
+st.header("Average Price per Sqft by Sector")
+
+property_type = st.selectbox("Select Property Type", df['property_type'].unique().tolist(), key="property_type_select")
+if property_type == "flat":
+    # Create a bar chart for average price per sqft by sector
+    fig1 = px.scatter(new_df[new_df["property_type"] == "flat"], x="built_up_area", y="price", color="bedRoom", title="Area Vs Price")
+
+    st.plotly_chart(fig1, use_container_width=True)
+else:
+    fig2 = px.scatter(new_df[new_df["property_type"] == "house"], x="built_up_area", y="price", color="bedRoom", title="Area Vs Price")
+
+    st.plotly_chart(fig2, use_container_width=True)    
