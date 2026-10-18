@@ -3,6 +3,7 @@ import pickle
 import pandas as pd
 import plotly.express as px
 import ast
+import numpy as np
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 
@@ -97,3 +98,15 @@ else:
     fig2 = px.scatter(new_df[new_df["property_type"] == "house"], x="built_up_area", y="price", color="bedRoom", title="Area Vs Price")
 
     st.plotly_chart(fig2, use_container_width=True)    
+
+
+st.header('BHK Pie Chart')
+sector_option = np.sort(new_df['sector'].unique()).tolist()
+sector_option.insert(0, "Overall")
+selected_sector = st.selectbox("Select Sector", sector_option, key="sector select")
+if selected_sector == "Overall":
+    fig2 = px.pie(new_df, names='bedRoom', title='Distribution of Properties by BHK')
+    st.plotly_chart(fig2, use_container_width=True)
+else:
+    fig2 = px.pie(new_df[new_df['sector'] == selected_sector], names='bedRoom', title='Distribution of Properties by BHK')
+    st.plotly_chart(fig2, use_container_width=True)
