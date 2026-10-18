@@ -2,6 +2,7 @@ import streamlit as st
 import pickle
 import pandas as pd
 import plotly.express as px
+import seaborn as sns
 import ast
 import numpy as np
 import matplotlib.pyplot as plt
@@ -110,3 +111,18 @@ if selected_sector == "Overall":
 else:
     fig2 = px.pie(new_df[new_df['sector'] == selected_sector], names='bedRoom', title='Distribution of Properties by BHK')
     st.plotly_chart(fig2, use_container_width=True)
+
+st.header('Side by side BHK price comparison')
+
+fig3 = px.box(new_df[new_df['bedRoom'] <= 5], x='bedRoom', y='price', color='property_type', title='Price Distribution by BHK and Property Type')
+st.plotly_chart(fig3, use_container_width=True)
+
+
+st.header('Side by side Distplot for property type')
+
+fig4 = plt.figure(figsize=(10, 6))
+sns.distplot(new_df[new_df['property_type'] == 'flat']['price'], label='Flat')
+sns.distplot(new_df[new_df['property_type'] == 'house']['price'], label='House')
+plt.title('Price Distribution by Property Type')
+plt.legend()
+st.pyplot(fig4, use_container_width=True)
