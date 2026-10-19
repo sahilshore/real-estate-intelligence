@@ -2,14 +2,20 @@ import streamlit as st
 import pickle
 import pandas as pd
 import numpy as np
+from pathlib import Path
+
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = BASE_DIR / "DataSets"
 
 st.set_page_config(page_title="Recommend Appartments")
 
-location_df = pickle.load(open('C:\\Users\\SAHIL\\Desktop\\Real-State-Price-Predictor\\DATA\\Model_Data\\location_distances_final.pkl','rb'))
+location_df = pickle.load(open(DATA_DIR / 'location_distances_final.pkl','rb'))
 
-cosine_sim1 = pickle.load(open('C:\\Users\\SAHIL\\Desktop\\Real-State-Price-Predictor\\DATA\\Model_Data\\cosine_sim1.pkl','rb'))
-cosine_sim2 = pickle.load(open('C:\\Users\\SAHIL\\Desktop\\Real-State-Price-Predictor\\DATA\\Model_Data\\cosine_sim2.pkl','rb'))
-cosine_sim3 = pickle.load(open('C:\\Users\\SAHIL\\Desktop\\Real-State-Price-Predictor\\DATA\\Model_Data\\cosine_sim3.pkl','rb'))
+cosine_sim1 = pickle.load(open(DATA_DIR / 'cosine_sim1.pkl','rb'))
+cosine_sim2 = pickle.load(open(DATA_DIR / 'cosine_sim2.pkl','rb'))
+cosine_sim3 = pickle.load(open(DATA_DIR / 'cosine_sim3.pkl','rb'))
 
 def recommend_properties_with_scores(property_name, top_n=247):
     
@@ -37,12 +43,6 @@ def recommend_properties_with_scores(property_name, top_n=247):
     })
     
     return recommendations_df
-
-# Test the recommender function using a property name
-recommend_properties_with_scores('DLF The Camellias')
-
-
-st.dataframe(location_df.head(10))
 
 st.title('Recommend Appartments')
 

@@ -7,16 +7,22 @@ import ast
 import numpy as np
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
+from pathlib import Path
 
 
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = BASE_DIR / "DataSets"
+
+df = pd.read_csv(DATA_DIR / 'gurgaon_properties_missing_value_imputation.csv')
+df1 = pd.read_csv(DATA_DIR / 'gurgaon_properties.csv')
+
+new_df = pd.read_csv(
+    DATA_DIR /'data_viz1.csv'
+)
 st.set_page_config(page_title="Gurgaon Real Estate Analytics Using Plots")
 
 st.title("Analysis")
-
-
-new_df = pd.read_csv(
-    r'C:\Users\SAHIL\Desktop\Real-State-Price-Predictor\DATA\Model_Data\data_viz1.csv'
-)
 
 # Group data by sector
 group_df = new_df.groupby('sector').mean(numeric_only=True)[
@@ -54,8 +60,8 @@ fig.update_layout(
 st.plotly_chart(fig, use_container_width=True)
 
 
-df = pd.read_csv('C:\\Users\\SAHIL\\Desktop\\Real-State-Price-Predictor\\DATA\\Featured_Data\\gurgaon_properties_missing_value_imputation.csv')
-df1 = pd.read_csv('C:\\Users\\SAHIL\\Desktop\\Real-State-Price-Predictor\\DATA\\Preprocessed_Data\\gurgaon_properties.csv')
+
+
 
 st.header("Word Cloud of Features by Sector")
 

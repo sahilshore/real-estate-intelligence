@@ -2,6 +2,7 @@ import streamlit as st
 import pickle
 import pandas as pd
 import numpy as np
+from pathlib import Path
 
 st.set_page_config(page_title="Viz Demo")
 
@@ -12,12 +13,15 @@ st.set_page_config(page_title="Viz Demo")
 #        'agePossession', 'built_up_area', 'servant room', 'store room',
 #        'furnishing_type', 'luxury_category', 'floor_category'
 
-with open('C:\\Users\\SAHIL\\Desktop\\Real-State-Price-Predictor\\DATA\\Model_Data\\df.pkl','rb') as file:
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = BASE_DIR / "DataSets"
+
+with open(DATA_DIR / "df.pkl", "rb") as file:
     df = pickle.load(file)
 
-with open('C:\\Users\\SAHIL\\Desktop\\Real-State-Price-Predictor\\DATA\\Model_Data\\pipeline.pkl','rb') as file:
+with open(DATA_DIR / "pipeline.pkl", "rb") as file:
     pipeline = pickle.load(file)
-
 
 st.header('Enter Your Property Details')
 
